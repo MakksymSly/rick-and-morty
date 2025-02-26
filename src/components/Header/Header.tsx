@@ -12,10 +12,10 @@ export const Header = () => {
 	return (
 		<div className="w-full flex bg-gray-800 shadow-xl items-center justify-between px-6">
 			<Link href="/">
-				<Image src="/logo-icon.png" alt="Logo" width={300} height={100} className="h-[100px]" />
+				<Image src="/logo-icon.png" alt="Logo" width={300} height={80} className="h-[80px]" />
 			</Link>
 
-			<div className="flex h-[100px] uppercase font-bold gap-6 text-slate-50">
+			<div className="flex h-[80px] uppercase font-bold gap-6 text-slate-50">
 				{navigation.map((tab) => {
 					return (
 						<Link href={tab.href} key={tab.name} className={cn('flex items-center h-full p-4 hover:bg-gray-700', { 'bg-gray-700': pathname === tab.href })}>
