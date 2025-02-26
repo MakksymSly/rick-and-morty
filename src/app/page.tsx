@@ -6,13 +6,18 @@ import { useQuery } from '@tanstack/react-query';
 import Pagination from 'rc-pagination';
 import cn from 'classnames';
 import { useState, useEffect } from 'react';
+import { Filters } from '@/components/Filter/Filter';
 
 export default function Home() {
 	const [currentPage, setCurrentPage] = useState(1);
 
+	const [name, setName] = useState('');
+	const [gender, setGender] = useState('');
+	const [status, setStatus] = useState('');
 	const { data, isSuccess, isLoading, isError } = useQuery({
-		queryKey: ['characters', currentPage],
-		queryFn: () => getData(Data.Characters, currentPage),
+		queryKey: ['characters', currentPage, name, gender, status],
+		queryFn: () => getData(Data.Characters, currentPage, status, gender, name),
+		retry: 1,
 	});
 
 	useEffect(() => {
@@ -21,12 +26,14 @@ export default function Home() {
 
 	useEffect(() => {
 		if (isError) console.log(isError);
-	}, [isError]);
+	}, [isError, data]);
 
 	return (
 		<>
 			<div className="container mx-auto">
-				<div className="cards">{isLoading ? <div>Loading...</div> : <CardsList characters={data?.results} />}</div>
+				<Filters type="characters" name={name} gender={gender} status={status} setName={setName} setGender={setGender} setStatus={setStatus} />
+				<div className="cards">{isLoading && <div className="text-center">Loading...</div>}</div>
+				<div> {isSuccess && <CardsList characters={data.results} />}</div>
 				{isSuccess && (
 					<Pagination
 						current={currentPage}
@@ -52,6 +59,7 @@ export default function Home() {
 						}}
 					/>
 				)}
+				{isError && <div className="text-center ">Nothing found</div>}
 			</div>
 		</>
 	);
