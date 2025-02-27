@@ -23,13 +23,6 @@ export const Filters: React.FC<Props> = ({ setName, setGender, setStatus, type }
 		setName?.(currentName);
 		setGender?.(currentGender);
 		setStatus?.(currentStatus);
-	});
-
-	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setName?.(currentName);
-		setGender?.(currentGender);
-		setStatus?.(currentStatus);
 
 		const params = new URLSearchParams();
 		if (currentName) params.set('name', currentName);
@@ -37,12 +30,12 @@ export const Filters: React.FC<Props> = ({ setName, setGender, setStatus, type }
 		if (currentStatus) params.set('status', currentStatus);
 
 		router.push(`?${params.toString()}`);
-	};
+	}, [currentName, currentGender, currentStatus]);
 
 	return (
-		<div className="w-full max-w-lg mx-auto p-4 shadow-md rounded-lg">
+		<div className="w-full max-w-lg mx-auto p-4rounded-lg">
 			{type === 'characters' && (
-				<form onSubmit={submitHandler} className="flex items-center gap-4">
+				<div className="flex items-center gap-4">
 					<input type="text" placeholder="Search by name" value={currentName} onChange={(e) => setCurrentName(e.target.value)} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
 					<select value={currentGender} onChange={(e) => setCurrentGender(e.target.value)} className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
 						<option value="">Select Gender</option>
@@ -56,10 +49,7 @@ export const Filters: React.FC<Props> = ({ setName, setGender, setStatus, type }
 						<option value="Dead">Dead</option>
 						<option value="unknown">Unknown</option>
 					</select>
-					<button type="submit" className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-						Search
-					</button>
-				</form>
+				</div>
 			)}
 		</div>
 	);
