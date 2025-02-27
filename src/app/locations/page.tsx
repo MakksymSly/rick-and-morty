@@ -1,24 +1,23 @@
 'use client';
-import { CharacterCardsList } from '@/components/CharacterCardsList/CharacterCardsList';
 import { getData } from '@/services/api';
 import { Data } from '@/types/Data';
 import { useQuery } from '@tanstack/react-query';
 import Pagination from 'rc-pagination';
 import cn from 'classnames';
 import { useState, useEffect } from 'react';
-import { Filters } from '@/components/Filter/Filter';
+import { LocationCardsList } from '@/components/LocationsCardsList/LocationCardsList';
+import { LocationFilter } from '@/components/LocationFilter/LocationFilter';
 
-export default function Home() {
+export default function Locations() {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const [name, setName] = useState('');
-	const [gender, setGender] = useState('');
-	const [status, setStatus] = useState('');
-	const [species, setSpecies] = useState('');
+	const [locationType, setLocationType] = useState('');
+	const [dimension, setDimension] = useState('');
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
-		queryKey: ['characters', currentPage, name, gender, status, species],
-		queryFn: () => getData({ type: Data.Characters, pageNumber: currentPage, name: name, gender: gender, status: status, species: species }),
+		queryKey: ['locations', currentPage, name, locationType, dimension],
+		queryFn: () => getData({ type: Data.Locations, pageNumber: currentPage, name: name, locationType: locationType, dimension: dimension }),
 		retry: 1,
 	});
 
@@ -29,13 +28,12 @@ export default function Home() {
 	useEffect(() => {
 		if (isError) console.log(isError);
 	}, [isError, data]);
-
 	return (
 		<>
-			<div className="container mx-auto">
-				<Filters setName={setName} setGender={setGender} setStatus={setStatus} setSpecies={setSpecies} />
+			<div className="container mx-auto h-full">
+				<LocationFilter setName={setName} setLocationType={setLocationType} setDimension={setDimension} />
 				<div className="cards">{isLoading && <div className="text-center">Loading...</div>}</div>
-				<div> {isSuccess && <CharacterCardsList characters={data.results} />}</div>
+				<div> {isSuccess && <LocationCardsList locations={data.results} />}</div>
 				{isSuccess && (
 					<Pagination
 						current={currentPage}
