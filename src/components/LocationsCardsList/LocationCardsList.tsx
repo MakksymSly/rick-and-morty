@@ -1,3 +1,4 @@
+'use client';
 import { Location } from '@/types/Location';
 import { LocationCard } from '../LocationCard/LocationCard';
 

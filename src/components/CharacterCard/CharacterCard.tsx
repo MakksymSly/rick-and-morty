@@ -1,3 +1,4 @@
+'use client';
 import { Character } from '@/types/Character';
 import Image from 'next/image';
 
