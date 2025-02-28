@@ -1,24 +1,22 @@
 'use client';
-import { CharacterCardsList } from '@/components/CharacterCardsList/CharacterCardsList';
 import { getData } from '@/services/api';
 import { Data } from '@/types/Data';
 import { useQuery } from '@tanstack/react-query';
 import Pagination from 'rc-pagination';
 import cn from 'classnames';
 import { useState, useEffect } from 'react';
-import { Filters } from '@/components/Filter/Filter';
+import { EpisodesCardsList } from '@/components/EpisodesCardsList/EpisodesCardsList';
+import { EpisodesFilter } from '@/components/EpisodesFilter/EpisodesFilter';
 
-export default function Home() {
+export default function Episodes() {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const [name, setName] = useState('');
-	const [gender, setGender] = useState('');
-	const [status, setStatus] = useState('');
-	const [species, setSpecies] = useState('');
+	const [episode, setEpisode] = useState('');
 
 	const { data, isSuccess, isLoading, isError } = useQuery({
-		queryKey: ['characters', currentPage, name, gender, status, species],
-		queryFn: () => getData({ type: Data.Characters, pageNumber: currentPage, name: name, gender: gender, status: status, species: species }),
+		queryKey: ['locations', currentPage, name, episode],
+		queryFn: () => getData({ type: Data.Episodes, pageNumber: currentPage, name: name, episode: episode }),
 		retry: 1,
 	});
 
@@ -29,13 +27,12 @@ export default function Home() {
 	useEffect(() => {
 		if (isError) console.log(isError);
 	}, [isError, data]);
-
 	return (
 		<>
-			<div className="container mx-auto">
-				<Filters setName={setName} setGender={setGender} setStatus={setStatus} setSpecies={setSpecies} />
+			<div className="container mx-auto h-full">
+				<EpisodesFilter setName={setName} setEpisode={setEpisode} />
 				<div className="cards">{isLoading && <div className="text-center">Loading...</div>}</div>
-				<div> {isSuccess && <CharacterCardsList characters={data.results} />}</div>
+				<div> {isSuccess && <EpisodesCardsList episodes={data.results} />}</div>
 				{isSuccess && (
 					<Pagination
 						current={currentPage}

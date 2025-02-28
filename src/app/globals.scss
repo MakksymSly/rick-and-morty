@@ -2,15 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 body {
-  color: var(--foreground);
-  background: #1a2027;
-  font-family: Arial, Helvetica, sans-serif;
+	color: var(--foreground);
+	font-family: Arial, Helvetica, sans-serif;
 }
 
-.container{
-  max-width: 1200px;
-  margin: 0 auto;
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
 }
