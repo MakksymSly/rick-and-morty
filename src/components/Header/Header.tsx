@@ -6,12 +6,17 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import cn from 'classnames';
 import { useMediaQuery } from 'react-responsive';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const Header = () => {
 	const pathname = usePathname();
-	const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
+	const [isDesktop, setIsDesktop] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
+	const isDesktopQuery = useMediaQuery({ query: '(min-width: 1024px)' });
+
+	useEffect(() => {
+		setIsDesktop(isDesktopQuery);
+	}, [isDesktopQuery]);
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
@@ -19,9 +24,13 @@ export const Header = () => {
 
 	return (
 		<>
-			<div className={cn('w-full flex bg-gray-800 shadow-xl items-center px-6', { 'justify-between': isDesktop, 'justify-center': !isDesktop })}>
+			<div
+				className={cn('w-full flex bg-gray-800 shadow-xl items-center px-6', {
+					'justify-between': isDesktop,
+					'justify-center': !isDesktop,
+				})}>
 				<a href="/">
-					<Image src="/logo-icon.png" alt="Logo" width={300} height={80} className="h-[80px] " />
+					<Image src="/logo-icon.png" alt="Logo" width={300} height={80} className="h-[80px]" />
 				</a>
 
 				<div className="flex h-[80px] uppercase font-bold gap-6 text-slate-50">
